@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   public async login(authDto: AuthDto) {
-    const user = await this.usersService.findByUsername(authDto.username);
+    const user = await this.usersService.findByEmail(authDto.email);
     await this.validateUserCredentials(user, authDto);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

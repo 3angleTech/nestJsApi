@@ -121,4 +121,4 @@ npm audit
 ```
 
 Enabling running prettier on file save is recommended.
-![WebStorm configuration](./documenation/images/webstorm_prettier_configuration.png)
+![WebStorm configuration](./docs/images/webstorm_prettier_configuration.png)
