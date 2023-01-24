@@ -1,11 +1,13 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 
-const USER_ALREADY_EXISTS_ERROR_MESSAGE =
-  'An user account with the same username or email already exists';
+const USERNAME_ALREADY_EXISTS_ERROR_MESSAGE =
+  'An user account with the same username already exists';
+const EMAIL_ALREADY_EXISTS_ERROR_MESSAGE =
+  'An user account with the same email already exists';
 
 @Injectable()
 export class UsersService {
@@ -17,33 +19,39 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    try {
-      const createUser: User = this.userRepository.create(createUserDto);
-      const user: User = await this.userRepository.save(createUser);
-
-      return {
-        message: 'User created successfully.',
-        user: user,
-      };
-    } catch (e) {
-      if (e instanceof QueryFailedError && e.driverError.code === '23505') {
-        this.logger.warn(e.driverError.detail);
-        throw new ConflictException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
-      }
-
-      throw e;
+    if (await this.findByUsername(createUserDto.username)) {
+      this.logger.warn(USERNAME_ALREADY_EXISTS_ERROR_MESSAGE);
+      throw new BadRequestException(USERNAME_ALREADY_EXISTS_ERROR_MESSAGE);
     }
+    if (await this.findByEmail(createUserDto.email)) {
+      this.logger.warn(EMAIL_ALREADY_EXISTS_ERROR_MESSAGE);
+      throw new BadRequestException(EMAIL_ALREADY_EXISTS_ERROR_MESSAGE);
+    }
+
+    const createUser: User = this.userRepository.create(createUserDto);
+    const user: User = await this.userRepository.save(createUser);
+
+    return {
+      message: 'User created successfully.',
+      user: user,
+    };
   }
 
-  findOne(id: string) {
+  findById(id: string): Promise<User | null> {
     return this.userRepository.findOneBy({
       id: id,
     });
   }
 
-  findByUsername(username: string) {
+  findByUsername(username: string): Promise<User | null> {
     return this.userRepository.findOneBy({
       username: username,
+    });
+  }
+
+  findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOneBy({
+      email: email,
     });
   }
 }

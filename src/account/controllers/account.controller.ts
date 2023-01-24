@@ -6,8 +6,8 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { CurrentUserId } from '../../commons/decorators/current-user-id.decorator';
-import { Public } from '../../commons/decorators/public.decorator';
+import { RequestUserId } from '../../commons/decorators/request-user-id.decorator';
+import { SkipAccessTokenGuard } from '../../commons/decorators/skip-access-token-guard.decorator';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { UsersService } from '../../users/services/users.service';
 
@@ -15,7 +15,7 @@ import { UsersService } from '../../users/services/users.service';
 export class AccountController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Public()
+  @SkipAccessTokenGuard()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('/create')
   create(@Body() createUserDto: CreateUserDto) {
@@ -24,7 +24,7 @@ export class AccountController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('/me')
-  getMyDetails(@CurrentUserId() userId: string) {
-    return this.usersService.findOne(userId);
+  getMyDetails(@RequestUserId() userId: string) {
+    return this.usersService.findById(userId);
   }
 }

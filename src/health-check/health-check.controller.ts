@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Public } from '../commons/decorators/public.decorator';
+import { SkipAccessTokenGuard } from '../commons/decorators/skip-access-token-guard.decorator';
 
 @Controller('health-check')
 export class HealthCheckController {
@@ -10,7 +10,7 @@ export class HealthCheckController {
     private readonly dataSource: DataSource,
   ) {}
 
-  @Public()
+  @SkipAccessTokenGuard()
   @Get()
   healthCheck() {
     const isDatabaseInitialized = this.dataSource.isInitialized;

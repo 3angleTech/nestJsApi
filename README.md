@@ -38,6 +38,12 @@ npm run start
 npm run start:dev
 ```
 
+### In development mode w/ file reload & debug
+Node debugger should be attached to port 9229
+```bash
+npm run start:debug
+```
+
 ### Running the application via Docker
 
 Run in the terminal the following commands:

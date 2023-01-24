@@ -13,7 +13,7 @@ export class UsersController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  async findOne(@Param('id') username: string) {
-    return this.usersService.findOne(username);
+  async findOne(@Param('id') id: string) {
+    return this.usersService.findById(id);
   }
 }
