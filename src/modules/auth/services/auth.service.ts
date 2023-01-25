@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Algorithm } from 'jsonwebtoken';
-import { verify } from '../../commons/crypto/crypto';
+import { verify } from '../../../common/crypto/crypto';
 import { User } from '../../users/entities/user.entity';
 import { UsersService } from '../../users/services/users.service';
 import { AuthDto } from '../dto/auth.dto';
@@ -16,15 +16,8 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async login(authDto: AuthDto) {
-    const user = await this.usersService.findByEmail(authDto.email);
-    await this.validateUserCredentials(user, authDto);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.getTokens(user!.id, user!.username);
-  }
-
-  private async validateUserCredentials(user: User | null, authDto: AuthDto) {
+  public async login(authDto: AuthDto): Promise<User> {
+    const user = await this.usersService.findByUsername(authDto.username);
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -33,9 +26,11 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException();
     }
+
+    return user;
   }
 
-  private async getTokens(userId: string, username: string) {
+  public async getTokens(userId: string, username: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.getAccessToken(userId, username),
       this.getRefreshToken(userId, username),

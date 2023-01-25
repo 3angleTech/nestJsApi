@@ -6,13 +6,13 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { RequestUserId } from '../../commons/decorators/request-user-id.decorator';
-import { SkipAccessTokenGuard } from '../../commons/decorators/skip-access-token-guard.decorator';
+import { RequestUserId } from '../../../common/decorators/request-user-id.decorator';
+import { SkipAccessTokenGuard } from '../../../common/decorators/skip-access-token-guard.decorator';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { UsersService } from '../../users/services/users.service';
 
 @Controller('account')
-export class AccountController {
+export class AccountsController {
   constructor(private readonly usersService: UsersService) {}
 
   @SkipAccessTokenGuard()
