@@ -6,7 +6,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: ['@3angletech/eslint-config/node', 'plugin:prettier/recommended'],
+  extends: ['@3angletech/eslint-config/node'],
   root: true,
   env: {
     node: true,
@@ -14,4 +14,5 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {},
+  overrides: [],
 };

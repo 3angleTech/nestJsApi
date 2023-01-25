@@ -106,9 +106,6 @@ npm run migration:revert
 ## Code quality
 To ensure the code quality, run before each commit:
 ```
-# format code using prettier
-npm run format
-
 # check linting
 npm run lint
 
@@ -119,6 +116,3 @@ npm run test:e2e
 # check for vulnerabilities
 npm audit
 ```
-
-Enabling running prettier on file save is recommended.
-![WebStorm configuration](./docs/images/webstorm_prettier_configuration.png)
