@@ -1,3 +1,4 @@
+/* eslint-disable indent*/
 import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
 
 const MIN_USERNAME_LENGTH = 3;

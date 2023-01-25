@@ -1,3 +1,4 @@
+/* eslint-disable indent*/
 import { Exclude, Expose } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { encrypt } from '../../../common/crypto/crypto';

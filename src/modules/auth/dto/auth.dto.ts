@@ -1,3 +1,4 @@
+/* eslint-disable indent*/
 import { IsNotEmpty } from 'class-validator';
 
 export enum OAuth2GrantType {

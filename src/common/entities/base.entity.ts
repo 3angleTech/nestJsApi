@@ -1,10 +1,6 @@
+/* eslint-disable indent*/
 import { Exclude } from 'class-transformer';
-import {
-  BeforeUpdate,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BeforeUpdate, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class BaseEntity {
   @Exclude()
