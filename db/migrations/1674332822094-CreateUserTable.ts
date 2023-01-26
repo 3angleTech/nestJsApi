@@ -31,12 +31,12 @@ export class CreateUserTable1674332822094 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'firstName',
+            name: 'first_name',
             type: 'varchar',
             isNullable: true,
           },
           {
-            name: 'lastName',
+            name: 'last_name',
             type: 'varchar',
             isNullable: true,
           },
@@ -46,22 +46,22 @@ export class CreateUserTable1674332822094 implements MigrationInterface {
             default: false,
           },
           {
-            name: 'createdAt',
+            name: 'created_at',
             type: 'timestamp',
             default: 'now()',
           },
           {
-            name: 'createdBy',
+            name: 'created_by',
             type: 'varchar',
             isNullable: true,
           },
           {
-            name: 'updatedAt',
+            name: 'updated_at',
             type: 'timestamp',
             isNullable: true,
           },
           {
-            name: 'updatedBy',
+            name: 'updated_by',
             type: 'varchar',
             isNullable: true,
           },

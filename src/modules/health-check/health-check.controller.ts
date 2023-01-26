@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { SkipAccessTokenGuard } from '../../common/decorators/skip-access-token-guard.decorator';
+import { SkipAccessTokenGuard } from '../../common/auth/skip-access-token-guard.decorator';
 
 @Controller('health-check')
 export class HealthCheckController {

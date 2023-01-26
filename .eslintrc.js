@@ -13,6 +13,14 @@ module.exports = {
     jest: true,
   },
   ignorePatterns: ['.eslintrc.js'],
-  rules: {},
-  overrides: [],
+  rules: {
+  },
+  overrides: [
+    {
+      files: [ "*.entity.ts", "*.dto.ts" ],
+      rules: {
+        "indent": "off"
+      }
+    }
+  ]
 };

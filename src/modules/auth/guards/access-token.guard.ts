@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { SKIP_ACCESS_TOKEN_GUARD_KEY } from '../../../common/decorators/skip-access-token-guard.decorator';
+import { SKIP_ACCESS_TOKEN_GUARD_KEY } from '../../../common/auth/skip-access-token-guard.decorator';
 
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('jwt') {

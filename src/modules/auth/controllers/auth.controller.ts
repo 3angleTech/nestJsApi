@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { RequestUser } from '../../../common/decorators/request-user.decorator';
-import { SkipAccessTokenGuard } from '../../../common/decorators/skip-access-token-guard.decorator';
+import { RequestUser } from '../../../common/auth/request-user.decorator';
+import { SkipAccessTokenGuard } from '../../../common/auth/skip-access-token-guard.decorator';
 import { User } from '../../users/entities/user.entity';
 import { AuthDto, OAuth2GrantType } from '../dto/auth.dto';
 import { RefreshTokenGuard } from '../guards/refresh-token.guard';

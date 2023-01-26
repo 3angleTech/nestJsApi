@@ -1,13 +1,6 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
-import { RequestUserId } from '../../../common/decorators/request-user-id.decorator';
-import { SkipAccessTokenGuard } from '../../../common/decorators/skip-access-token-guard.decorator';
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { RequestUserId } from '../../../common/auth/request-user-id.decorator';
+import { SkipAccessTokenGuard } from '../../../common/auth/skip-access-token-guard.decorator';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { UsersService } from '../../users/services/users.service';
 

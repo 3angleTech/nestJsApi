@@ -1,4 +1,3 @@
-/* eslint-disable indent*/
 import { Exclude, Expose } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { encrypt } from '../../../common/crypto/crypto';
@@ -6,31 +5,40 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', {
+    name: 'id',
+  })
   id: string;
 
   @Column({
     unique: true,
     nullable: false,
+    name: 'username',
   })
   username: string;
 
   @Exclude()
   @Column({
     nullable: false,
+    name: 'password',
   })
   password: string;
 
   @Column({
     unique: true,
     nullable: false,
+    name: 'email',
   })
   email: string;
 
-  @Column()
+  @Column({
+    name: 'first_name',
+  })
   firstName: string;
 
-  @Column()
+  @Column({
+    name: 'last_name',
+  })
   lastName: string;
 
   @Expose()
@@ -41,6 +49,7 @@ export class User extends BaseEntity {
   @Exclude()
   @Column({
     default: false,
+    name: 'active',
   })
   active: boolean;
 
