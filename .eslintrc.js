@@ -14,12 +14,13 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
+    "capitalized-comments": "off",
   },
   overrides: [
     {
       files: [ "*.entity.ts", "*.dto.ts" ],
       rules: {
-        "indent": "off"
+        "indent": "off",
       }
     }
   ]

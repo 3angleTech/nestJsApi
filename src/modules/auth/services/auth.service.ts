@@ -17,6 +17,9 @@ export class AuthService {
   ) {}
 
   public async login(authDto: AuthDto): Promise<User> {
+    if (!authDto.username) {
+      throw new UnauthorizedException();
+    }
     const user = await this.usersService.findByUsername(authDto.username);
     if (!user) {
       throw new UnauthorizedException();
