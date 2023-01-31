@@ -1,0 +1,2 @@
+# Ignore the node_modules directory in COPY commands.
+node_modules

@@ -1,0 +1,19 @@
+version: '3'
+name: nodejs-api
+services:
+  3at-postgres:
+    container_name: 3at-nest-postgres
+    build: ./docker/postgres
+    environment:
+      - POSTGRES_USER=threeangle
+      - POSTGRES_PASSWORD=threeangle
+      - POSTGRES_DB=threeangle
+    ports:
+      - "5432:5432"
+  3at-api:
+    container_name: 3at-nest-api
+    build: ./
+    environment:
+      - POSTGRES_HOST=3at-nest-postgres
+    ports:
+      - "3000:3000"
