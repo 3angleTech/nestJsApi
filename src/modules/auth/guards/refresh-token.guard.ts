@@ -1,5 +1,6 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { OAuth2GrantType } from '../dto/auth.dto';
 
 @Injectable()

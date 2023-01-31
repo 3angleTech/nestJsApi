@@ -1,17 +1,23 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Algorithm } from 'jsonwebtoken';
-import { verify } from '../../../common/crypto/crypto';
-import { User } from '../../users/entities/user.entity';
-import { UsersService } from '../../users/services/users.service';
+
+import { verify } from '~common/crypto';
+import { IUsersService, User, USERS_SERVICE } from '~modules/users';
+
 import { AuthDto } from '../dto/auth.dto';
+import { IAuthService } from './auth.interface';
+
+export const ACCESS_TOKEN_COOKIE_NAME: string = 'accessToken';
+export const REFRESH_TOKEN_COOKIE_NAME: string = 'refreshToken';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements IAuthService {
   constructor(
-    private readonly usersService: UsersService,
+    @Inject(USERS_SERVICE)
+    private readonly usersService: IUsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}

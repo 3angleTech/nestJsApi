@@ -1,7 +1,8 @@
 import { Exclude, Expose } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { BaseEntity } from '../../../common/core/base.entity';
-import { encrypt } from '../../../common/crypto/crypto';
+
+import { BaseEntity } from '~common/core';
+import { encrypt } from '~common/crypto';
 
 @Entity()
 export class User extends BaseEntity {

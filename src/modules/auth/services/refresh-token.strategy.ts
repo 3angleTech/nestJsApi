@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { RequestUser } from '../../../common/auth/request-user';
+
+import { IRequestUser } from '~common/auth';
+
+import { REFRESH_TOKEN_COOKIE_NAME } from './auth.service';
 import { JwtPayload } from './jwt-payload';
 
 @Injectable()
@@ -12,16 +15,26 @@ export class RefreshTokenStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        RefreshTokenStrategy.extractTokenFromCookies,
+      ]),
       secretOrKey: configService.get<string>('security.refreshTokenSecret'),
       ignoreExpiration: false,
     });
   }
 
-  validate(payload: JwtPayload): RequestUser {
+  validate(payload: JwtPayload): IRequestUser {
     return {
       userId: payload.sub,
       username: payload.username,
     };
+  }
+
+  private static extractTokenFromCookies(req): string | null {
+    if (req.cookies && REFRESH_TOKEN_COOKIE_NAME in req.cookies) {
+      return req.cookies[REFRESH_TOKEN_COOKIE_NAME];
+    }
+    return null;
   }
 }

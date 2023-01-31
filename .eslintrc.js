@@ -15,6 +15,14 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   rules: {
     "capitalized-comments": "off",
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "^~[^/]+/[^/]+$",
+        ]
+      }
+    ],
   },
   overrides: [
     {

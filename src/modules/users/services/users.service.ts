@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
+import { IUsersService } from './users.interface';
 
 const USERNAME_ALREADY_EXISTS_ERROR_MESSAGE =
   'An user account with the same username already exists';
@@ -10,7 +12,7 @@ const EMAIL_ALREADY_EXISTS_ERROR_MESSAGE =
   'An user account with the same email already exists';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUsersService {
   private readonly logger = new Logger(UsersService.name);
 
   constructor(

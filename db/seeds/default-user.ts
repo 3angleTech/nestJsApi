@@ -1,4 +1,4 @@
-import { CreateUserDto } from '../../src/modules/users/dto/create-user.dto';
+import { CreateUserDto } from '~modules/users';
 
 export const DefaultUser: CreateUserDto = {
   username: 'mcristi',

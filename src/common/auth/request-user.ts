@@ -1,4 +1,4 @@
-export interface RequestUser {
+export interface IRequestUser {
   userId: string;
   username: string;
 }

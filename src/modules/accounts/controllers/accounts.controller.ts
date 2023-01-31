@@ -1,12 +1,14 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
-import { RequestUserId } from '../../../common/auth/request-user-id.decorator';
-import { SkipAccessTokenGuard } from '../../../common/auth/skip-access-token-guard.decorator';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { UsersService } from '../../users/services/users.service';
+import { Body, ClassSerializerInterceptor, Controller, Get, Inject, Post, UseInterceptors } from '@nestjs/common';
+
+import { RequestUserId, SkipAccessTokenGuard } from '~common/auth';
+import { CreateUserDto, IUsersService, USERS_SERVICE } from '~modules/users';
 
 @Controller('account')
 export class AccountsController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @Inject(USERS_SERVICE)
+    private readonly usersService: IUsersService,
+  ) {}
 
   @SkipAccessTokenGuard()
   @UseInterceptors(ClassSerializerInterceptor)

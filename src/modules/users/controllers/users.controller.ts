@@ -1,15 +1,12 @@
-import {
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
-import { UsersService } from '../services/users.service';
+import { ClassSerializerInterceptor, Controller, Get, Inject, Param, UseInterceptors } from '@nestjs/common';
+import { IUsersService, USERS_SERVICE } from '../services/users.interface';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @Inject(USERS_SERVICE)
+    private readonly usersService: IUsersService,
+  ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')

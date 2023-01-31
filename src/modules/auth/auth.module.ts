@@ -2,17 +2,27 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UsersModule } from '../users/users.module';
+
+import { UsersModule } from '~modules/users';
+
 import { AuthController } from './controllers/auth.controller';
 import { AccessTokenGuard } from './guards/access-token.guard';
 import { AccessTokenStrategy } from './services/access-token.strategy';
+import { AUTH_SERVICE } from './services/auth.interface';
 import { AuthService } from './services/auth.service';
 import { RefreshTokenStrategy } from './services/refresh-token.strategy';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({})],
+  imports: [
+    UsersModule,
+    PassportModule,
+    JwtModule.register({}),
+  ],
   providers: [
-    AuthService,
+    {
+      provide: AUTH_SERVICE,
+      useClass: AuthService,
+    },
     AccessTokenStrategy,
     {
       provide: APP_GUARD,
@@ -21,6 +31,5 @@ import { RefreshTokenStrategy } from './services/refresh-token.strategy';
     RefreshTokenStrategy,
   ],
   controllers: [AuthController],
-  exports: [AuthService],
 })
 export class AuthModule {}

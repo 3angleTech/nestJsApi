@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AccountsModule } from '~modules/accounts';
+import { AuthModule } from '~modules/auth';
+import { HealthCheckModule } from '~modules/health-check';
+import { UsersModule } from '~modules/users';
+
 import databaseConfiguration from './config/db.config';
 import environmentConfig from './config/environment.config';
 import securityConfig from './config/security.config';
-
-import { AccountsModule } from './modules/accounts/accounts.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { HealthCheckModule } from './modules/health-check/health-check.module';
-import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
