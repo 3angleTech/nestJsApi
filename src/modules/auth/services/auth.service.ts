@@ -5,9 +5,10 @@ import { JwtService } from '@nestjs/jwt';
 import { Algorithm } from 'jsonwebtoken';
 
 import { verify } from '~common/crypto';
-import { IUsersService, User, USERS_SERVICE } from '~modules/users';
+import { IUsersService, User, USERS_SERVICE } from '~common/users';
 
 import { AuthDto } from '../dto/auth.dto';
+import { JwtPayload } from '../interfaces/jwt-payload';
 import { IAuthService } from './auth.interface';
 
 export const ACCESS_TOKEN_COOKIE_NAME: string = 'accessToken';
@@ -68,6 +69,29 @@ export class AuthService implements IAuthService {
         ),
       },
     );
+  }
+
+  public async getGenericToken(userId: string, email: string, expiresIn: string): Promise<string> {
+    return this.jwtService.signAsync(
+      {
+        sub: userId,
+        email: email,
+      },
+      {
+        secret: this.configService.get<string>('security.genericTokenSecret'),
+        expiresIn: expiresIn,
+        issuer: this.configService.get<string>('security.tokensIssuer'),
+        algorithm: this.configService.get<Algorithm | undefined>(
+          'security.tokensAlgorithm',
+        ),
+      },
+    );
+  }
+
+  public verifyGenericToken(token: string): JwtPayload {
+    return this.jwtService.verify(token, {
+      secret: this.configService.get<string>('security.genericTokenSecret'),
+    });
   }
 
   private async getRefreshToken(userId: string, username: string) {

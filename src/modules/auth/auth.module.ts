@@ -3,7 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { UsersModule } from '~modules/users';
+import { UsersModule } from '~common/users';
 
 import { AuthController } from './controllers/auth.controller';
 import { AccessTokenGuard } from './guards/access-token.guard';
@@ -31,5 +31,8 @@ import { RefreshTokenStrategy } from './services/refresh-token.strategy';
     RefreshTokenStrategy,
   ],
   controllers: [AuthController],
+  exports: [
+    AUTH_SERVICE,
+  ],
 })
 export class AuthModule {}
