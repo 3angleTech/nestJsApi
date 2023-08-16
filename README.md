@@ -26,6 +26,12 @@ npm install
 
 The environment variables are pulled from the `.env` file located in the root of the project.
 
+New token secrets for `src/config/security.config.ts` can be generated using:
+
+```bash
+openssl genrsa 2048
+```
+
 ## Running the app
 
 ### In development mode
