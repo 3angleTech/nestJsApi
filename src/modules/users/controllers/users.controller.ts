@@ -1,5 +1,5 @@
-import { ClassSerializerInterceptor, Controller, Get, Inject, Param, UseInterceptors } from '@nestjs/common';
-import { IUsersService, USERS_SERVICE } from '../services/users.interface';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { IUsersService, USERS_SERVICE } from '~common/users';
 
 @Controller('users')
 export class UsersController {
@@ -8,7 +8,6 @@ export class UsersController {
     private readonly usersService: IUsersService,
   ) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.usersService.findById(id);

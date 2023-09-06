@@ -1,13 +1,13 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Algorithm } from 'jsonwebtoken';
 
 import { verify } from '~common/crypto';
-import { IUsersService, User, USERS_SERVICE } from '~modules/users';
+import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
+import { JwtPayload } from '../interfaces/jwt-payload';
 import { IAuthService } from './auth.interface';
 
 export const ACCESS_TOKEN_COOKIE_NAME: string = 'accessToken';
@@ -52,39 +52,56 @@ export class AuthService implements IAuthService {
   }
 
   public async getAccessToken(userId: string, username: string) {
+    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
     return this.jwtService.signAsync(
       {
         sub: userId,
         username: username,
       },
       {
-        secret: this.configService.get<string>('security.accessTokenSecret'),
-        expiresIn: this.configService.get<string>(
-          'security.accessTokenExpirationTime',
-        ),
-        issuer: this.configService.get<string>('security.tokensIssuer'),
-        algorithm: this.configService.get<Algorithm | undefined>(
-          'security.tokensAlgorithm',
-        ),
+        secret: securityConfiguration.accessTokenSecret,
+        expiresIn: securityConfiguration.accessTokenExpirationTime,
+        issuer: securityConfiguration.tokensIssuer,
+        algorithm: securityConfiguration.tokensAlgorithm,
       },
     );
   }
 
+  public async getGenericToken(userId: string, email: string, expiresIn: string): Promise<string> {
+    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    return this.jwtService.signAsync(
+      {
+        sub: userId,
+        email: email,
+      },
+      {
+        secret: securityConfiguration.accessTokenSecret,
+        expiresIn: expiresIn,
+        issuer: securityConfiguration.tokensIssuer,
+        algorithm: securityConfiguration.tokensAlgorithm,
+      },
+    );
+  }
+
+  public verifyGenericToken(token: string): JwtPayload {
+    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    return this.jwtService.verify(token, {
+      secret: securityConfiguration.genericTokenSecret,
+    });
+  }
+
   private async getRefreshToken(userId: string, username: string) {
+    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
     return this.jwtService.signAsync(
       {
         sub: userId,
         username: username,
       },
       {
-        secret: this.configService.get<string>('security.refreshTokenSecret'),
-        expiresIn: this.configService.get<string>(
-          'security.refreshTokenExpirationTime',
-        ),
-        issuer: this.configService.get<string>('security.tokensIssuer'),
-        algorithm: this.configService.get<Algorithm | undefined>(
-          'security.tokensAlgorithm',
-        ),
+        secret: securityConfiguration.refreshTokenSecret,
+        expiresIn: securityConfiguration.refreshTokenExpirationTime,
+        issuer: securityConfiguration.tokensIssuer,
+        algorithm: securityConfiguration.tokensAlgorithm,
       },
     );
   }

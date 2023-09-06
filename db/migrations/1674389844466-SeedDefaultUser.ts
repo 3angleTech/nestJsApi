@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { User } from '~modules/users';
+import { User } from '~common/users';
 import { DefaultUser } from '../seeds/default-user';
 
 export class SeedDefaultUser1674389844466 implements MigrationInterface {

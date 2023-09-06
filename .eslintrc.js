@@ -20,9 +20,13 @@ module.exports = {
       {
         "ignore": [
           "^~[^/]+/[^/]+$",
+          "@sendgrid/helpers",
+          "@sendgrid/mail",
+          "jsonwebtoken",
         ]
       }
     ],
+    "jsdoc/newline-after-description": "off",
   },
   overrides: [
     {

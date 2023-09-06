@@ -8,6 +8,7 @@ import { HealthCheckModule } from '~modules/health-check';
 import { UsersModule } from '~modules/users';
 
 import databaseConfiguration from './config/db.config';
+import emailConfig from './config/email.config';
 import environmentConfig from './config/environment.config';
 import securityConfig from './config/security.config';
 
@@ -15,7 +16,7 @@ import securityConfig from './config/security.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfiguration, environmentConfig, securityConfig],
+      load: [databaseConfiguration, environmentConfig, emailConfig, securityConfig],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

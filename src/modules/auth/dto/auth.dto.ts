@@ -9,6 +9,9 @@ export class AuthDto {
   @IsNotEmpty()
   grant_type: OAuth2GrantType;
 
+  @IsNotEmpty()
   username: string;
+
+  @IsNotEmpty()
   password: string;
 }

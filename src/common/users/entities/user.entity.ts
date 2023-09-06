@@ -50,9 +50,9 @@ export class User extends BaseEntity {
   @Exclude()
   @Column({
     default: false,
-    name: 'active',
+    name: 'is_active',
   })
-  active: boolean;
+  isActive: boolean;
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

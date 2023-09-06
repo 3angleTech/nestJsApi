@@ -1,4 +1,4 @@
-import { CreateUserDto } from '~modules/users';
+import { CreateUserDto } from '~common/users';
 
 export const DefaultUser: CreateUserDto = {
   username: 'mcristi',
