@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { EmailModule } from '~common/email';
+import { EmailsModule } from '~common/emails';
 import { UsersModule } from '~common/users';
 import { AuthModule } from '~modules/auth';
 
@@ -12,7 +12,7 @@ import { AccountsService } from './services/accounts.service';
 
 @Module({
   imports: [
-    EmailModule,
+    EmailsModule,
     UsersModule,
     AuthModule,
   ],

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { Email, EMAIL_SERVICE, IEmailService } from '~common/email';
+import { Email, EMAILS_SERVICE, IEmailsService } from '~common/emails';
 import { IUsersService, User, USERS_SERVICE } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
@@ -14,8 +14,8 @@ import { IAccountEmailsService } from './account-emails.interface';
 export class AccountEmailsService implements IAccountEmailsService {
   // eslint-disable-next-line max-params
   constructor(
-    @Inject(EMAIL_SERVICE)
-    private readonly emailService: IEmailService,
+    @Inject(EMAILS_SERVICE)
+    private readonly emailService: IEmailsService,
     @Inject(AUTH_SERVICE)
     private readonly authService: IAuthService,
     @Inject(USERS_SERVICE)

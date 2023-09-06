@@ -1,4 +1,4 @@
-import { Email } from './email.service.interface';
+import { Email } from './emails.service.interface';
 
 /**
  * Provides the driver for the e-mail provider.

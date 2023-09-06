@@ -1,11 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { EMAIL_PROVIDER_DRIVER, IEmailProviderDriver } from './email-provider-driver.interface';
-import { Email, IEmailService } from './email.service.interface';
+import { Email, IEmailsService } from './emails.service.interface';
 
 @Injectable()
-export class EmailService implements IEmailService {
-  private readonly logger = new Logger(EmailService.name);
+export class EmailsService implements IEmailsService {
+  private readonly logger = new Logger(EmailsService.name);
 
   constructor(
     @Inject(EMAIL_PROVIDER_DRIVER)

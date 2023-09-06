@@ -11,7 +11,7 @@ export interface Email {
 /**
  * Provides the email service used for actions like activation, sign up, or password reset.
  */
-export interface IEmailService {
+export interface IEmailsService {
 
   /**
    * Sends a generic email message.
@@ -19,4 +19,4 @@ export interface IEmailService {
    */
   sendEmail(email: Email): Promise<void>;
 }
-export const EMAIL_SERVICE = 'EMAIL_SERVICE';
+export const EMAILS_SERVICE = 'EMAIL_SERVICE';
