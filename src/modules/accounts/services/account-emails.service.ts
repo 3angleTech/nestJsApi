@@ -4,11 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { Email, EMAIL_SERVICE, IEmailService } from '~common/email';
 import { IUsersService, User, USERS_SERVICE } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
+import { EnvironmentConfiguration } from '~config/environment.config';
+import { SecurityConfiguration } from '~config/security.config';
 import { AUTH_SERVICE, IAuthService } from '~modules/auth';
 
 import { IAccountEmailsService } from './account-emails.interface';
-import { SecurityConfiguration } from '~config/security.config';
-import { EnvironmentConfiguration } from '~config/environment.config';
 
 @Injectable()
 export class AccountEmailsService implements IAccountEmailsService {
@@ -44,8 +44,7 @@ export class AccountEmailsService implements IAccountEmailsService {
   }
 
   private async getPasswordResetUrl(user: User): Promise<string> {
-    const securityConfiguration = <SecurityConfiguration> this.configService.get('security');
-    const expirationTimeInHours = securityConfiguration.genericTokenExpirationTimeInHours;
+    const expirationTimeInHours = this.configService.get<SecurityConfiguration>('security')?.genericTokenExpirationTimeInHours;
     const token = await this.authService.getGenericToken(user.id, user.email, `${expirationTimeInHours}h`);
 
     const environment = <EnvironmentConfiguration> this.configService.get('environment');
