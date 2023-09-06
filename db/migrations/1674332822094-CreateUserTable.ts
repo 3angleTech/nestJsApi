@@ -41,7 +41,7 @@ export class CreateUserTable1674332822094 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'active',
+            name: 'is_active',
             type: 'boolean',
             default: false,
           },

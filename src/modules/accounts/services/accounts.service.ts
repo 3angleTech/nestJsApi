@@ -22,7 +22,7 @@ export class AccountsService implements IAccountsService {
 
   public async forgotPassword(dto: ForgotPasswordDto): Promise<void> {
     const user = await this.usersService.findByEmail(dto.email);
-    if (user && user.active) {
+    if (user && user.isActive) {
       return this.accountEmailsService.sendForgotPasswordEmail(user.email);
     }
   }
@@ -36,10 +36,7 @@ export class AccountsService implements IAccountsService {
       throw new UnauthorizedException();
     }
 
-    const user: User | null = await this.usersService.findById(userId);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+    const user: User = await this.usersService.findByIdOrFail(userId);
 
     if (dto.newPassword !== dto.confirmPassword) {
       throw new BadRequestException('SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH');

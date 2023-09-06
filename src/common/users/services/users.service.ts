@@ -6,6 +6,9 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { IUsersService } from './users.interface';
 
+const USERNAME_ALREADY_EXISTS = 'SERVER_ERROR.USER.USERNAME_ALREADY_EXISTS';
+const USER_EMAIL_ALREADY_EXISTS = 'SERVER_ERROR.USER.EMAIL_ALREADY_EXISTS';
+
 @Injectable()
 export class UsersService implements IUsersService {
   private readonly logger = new Logger(UsersService.name);
@@ -18,12 +21,12 @@ export class UsersService implements IUsersService {
 
   async create(createUserDto: CreateUserDto) {
     if (await this.findByUsername(createUserDto.username)) {
-      this.logger.warn('SERVER_ERROR.USER.USERNAME_ALREADY_EXISTS');
-      throw new BadRequestException('SERVER_ERROR.USER.USERNAME_ALREADY_EXISTS');
+      this.logger.warn(USERNAME_ALREADY_EXISTS);
+      throw new BadRequestException(USERNAME_ALREADY_EXISTS);
     }
     if (await this.findByEmail(createUserDto.email)) {
-      this.logger.warn('SERVER_ERROR.USER.EMAIL_ALREADY_EXISTS');
-      throw new BadRequestException('SERVER_ERROR.USER.EMAIL_ALREADY_EXISTS');
+      this.logger.warn(USER_EMAIL_ALREADY_EXISTS);
+      throw new BadRequestException(USER_EMAIL_ALREADY_EXISTS);
     }
 
     createUserDto.email = createUserDto.email.toLowerCase();
@@ -34,6 +37,12 @@ export class UsersService implements IUsersService {
   findById(id: string): Promise<User | null> {
     return this.userRepository.findOneBy({
       id: id,
+    });
+  }
+
+  findByIdOrFail(id: string): Promise<User> {
+    return this.userRepository.findOneOrFail({
+      where: { id: id },
     });
   }
 
@@ -54,7 +63,7 @@ export class UsersService implements IUsersService {
       user.email = user.email.toLowerCase();
     }
     await this.userRepository.update(userId, user);
-    return await this.findById(userId) as User;
+    return this.findByIdOrFail(userId);
   }
 
 }
