@@ -34,13 +34,7 @@ export class UsersService implements IUsersService {
     return this.userRepository.save(createUser);
   }
 
-  findById(id: string): Promise<User | null> {
-    return this.userRepository.findOneBy({
-      id: id,
-    });
-  }
-
-  findByIdOrFail(id: string): Promise<User> {
+  findById(id: string): Promise<User> {
     return this.userRepository.findOneOrFail({
       where: { id: id },
     });
@@ -63,7 +57,7 @@ export class UsersService implements IUsersService {
       user.email = user.email.toLowerCase();
     }
     await this.userRepository.update(userId, user);
-    return this.findByIdOrFail(userId);
+    return this.findById(userId);
   }
 
 }

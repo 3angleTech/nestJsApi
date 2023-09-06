@@ -36,7 +36,7 @@ export class AccountsService implements IAccountsService {
       throw new UnauthorizedException();
     }
 
-    const user: User = await this.usersService.findByIdOrFail(userId);
+    const user: User = await this.usersService.findById(userId);
 
     if (dto.newPassword !== dto.confirmPassword) {
       throw new BadRequestException('SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH');
