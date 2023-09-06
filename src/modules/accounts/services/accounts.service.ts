@@ -9,6 +9,8 @@ import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { IAccountsService } from './accounts.interface';
 import { ACCOUNT_EMAILS_SERVICE, IAccountEmailsService } from './account-emails.interface';
 
+const USER_PASSWORDS_DO_NOT_MATCH = 'SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH';
+
 export class AccountsService implements IAccountsService {
   constructor(
     @Inject(ACCOUNT_EMAILS_SERVICE)
@@ -39,7 +41,7 @@ export class AccountsService implements IAccountsService {
     const user: User = await this.usersService.findById(userId);
 
     if (dto.newPassword !== dto.confirmPassword) {
-      throw new BadRequestException('SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH');
+      throw new BadRequestException(USER_PASSWORDS_DO_NOT_MATCH);
     }
 
     const passwordHash = await encrypt(dto.newPassword);
