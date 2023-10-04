@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Inject, Post, Res, UseGuards } from '@nestjs/common';
 
 import { RequestUser, SkipAccessTokenGuard } from '~common/auth';
 import { User } from '~common/users';
@@ -30,6 +30,7 @@ export class AuthController {
         httpOnly: true,
       });
 
+      res.status(HttpStatus.OK);
       return tokens;
     } else if (authDto.grant_type === OAuth2GrantType.RefreshToken) {
       const accessToken = await this.authService.getAccessToken(
@@ -41,9 +42,8 @@ export class AuthController {
         httpOnly: true,
       });
 
-      return {
-        accessToken,
-      };
+      res.status(HttpStatus.OK);
+      return { accessToken: accessToken };
     }
   }
 

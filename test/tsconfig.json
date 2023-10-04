@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true
+  },
+  "files": [
+    "jest-e2e.ts",
+    "*.e2e-spec.ts"
+  ]
+}

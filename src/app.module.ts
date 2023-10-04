@@ -22,6 +22,7 @@ import securityConfig from './config/security.config';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...configService.get('db'),
+        logger: 'simple-console',
       }),
     }),
     AccountsModule,

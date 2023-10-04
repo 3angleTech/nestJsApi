@@ -1,9 +1,9 @@
 import { CreateUserDto } from '~common/users';
 
 export const DefaultUser: CreateUserDto = {
-  username: 'mcristi',
-  password: 'qW12!@',
-  email: 'cristian@3angle.tech',
-  firstName: 'Cristi',
-  lastName: 'M',
+  username: 'tester',
+  password: 'qW12!@qW12!@',
+  email: 'contact+tester@3angle.tech',
+  firstName: 'Tester',
+  lastName: '3AT',
 };
