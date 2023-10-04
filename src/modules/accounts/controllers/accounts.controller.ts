@@ -23,13 +23,14 @@ export class AccountsController {
   }
 
   @Get('/me')
-  getMyDetails(@RequestUserId() userId: string) {
+  async getMyDetails(@RequestUserId() userId: string) {
     return this.usersService.findById(userId);
   }
 
   @SkipAccessTokenGuard()
   @Post('/forgot-password')
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    dto.email = dto.email.toLowerCase();
     await this.accountsService.forgotPassword(dto);
 
     return {

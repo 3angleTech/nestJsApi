@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Logger, UnauthorizedException } from '@nestjs/common';
 
 import { IUsersService, User, USERS_SERVICE } from '~common/users';
 import { encrypt } from '~common/crypto';
@@ -9,9 +9,13 @@ import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { IAccountsService } from './accounts.interface';
 import { ACCOUNT_EMAILS_SERVICE, IAccountEmailsService } from './account-emails.interface';
 
+const USER_FORGOT_PASSWORD_NO_USER = 'SERVER_ERROR.USER.FORGOT_PASSWORD_NO_USER';
+const USER_FORGOT_PASSWORD_INACTIVE_USER = 'SERVER_ERROR.USER.FORGOT_PASSWORD_INACTIVE_USER';
 const USER_PASSWORDS_DO_NOT_MATCH = 'SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH';
 
 export class AccountsService implements IAccountsService {
+  private readonly logger = new Logger(AccountsService.name);
+
   constructor(
     @Inject(ACCOUNT_EMAILS_SERVICE)
     private readonly accountEmailsService: IAccountEmailsService,
@@ -24,8 +28,13 @@ export class AccountsService implements IAccountsService {
 
   public async forgotPassword(dto: ForgotPasswordDto): Promise<void> {
     const user = await this.usersService.findByEmail(dto.email);
-    if (user && user.isActive) {
-      return this.accountEmailsService.sendForgotPasswordEmail(user.email);
+    if (user) {
+      if (user.isActive) {
+        return this.accountEmailsService.sendForgotPasswordEmail(user.email);
+      }
+      this.logger.warn(`${USER_FORGOT_PASSWORD_INACTIVE_USER}: ${user.email}`);
+    } else {
+      this.logger.warn(`${USER_FORGOT_PASSWORD_NO_USER}: ${dto.email}`);
     }
   }
 
