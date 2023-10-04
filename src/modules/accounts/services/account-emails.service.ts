@@ -48,6 +48,7 @@ export class AccountEmailsService implements IAccountEmailsService {
     const token = await this.authService.getGenericToken(user.id, user.email, `${expirationTimeInHours}h`);
 
     const environment = <EnvironmentConfiguration> this.configService.get('environment');
-    return `${environment.clientBaseUrl}/account/reset-password?token=${token}`;
+    const encodedToken: string = encodeURIComponent(token);
+    return `${environment.clientBaseUrl}/account/reset-password?token=${encodedToken}`;
   }
 }
