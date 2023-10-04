@@ -75,7 +75,7 @@ export class AuthService implements IAuthService {
         email: email,
       },
       {
-        secret: securityConfiguration.accessTokenSecret,
+        secret: securityConfiguration.genericTokenSecret,
         expiresIn: expiresIn,
         issuer: securityConfiguration.tokensIssuer,
         algorithm: securityConfiguration.tokensAlgorithm,

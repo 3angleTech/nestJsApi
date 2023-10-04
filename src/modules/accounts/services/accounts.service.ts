@@ -41,7 +41,8 @@ export class AccountsService implements IAccountsService {
   public async resetPassword(dto: ResetPasswordDto): Promise<void> {
     let userId: string;
     try {
-      const payload: JwtPayload = await this.authService.verifyGenericToken(dto.token);
+      const decodedToken = decodeURIComponent(dto.token);
+      const payload: JwtPayload = await this.authService.verifyGenericToken(decodedToken);
       userId = payload.sub;
     } catch (err) {
       throw new UnauthorizedException();
