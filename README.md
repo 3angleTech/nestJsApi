@@ -25,6 +25,7 @@ npm install
 ### Environment Variables
 
 The environment variables are pulled from the `.env` file located in the root of the project.
+Env variables can be found in lastPass nestJS-api .env.
 
 New token secrets for `src/config/security.config.ts` can be generated using:
 
