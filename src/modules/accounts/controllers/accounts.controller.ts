@@ -1,11 +1,12 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 
 import { RequestUserId, SkipAccessTokenGuard } from '~common/auth';
-import { CreateUserDto, IUsersService, USERS_SERVICE } from '~common/users';
+import { CreateUserDto, IUsersService, User, USERS_SERVICE } from '~common/users';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ACCOUNTS_SERVICE, IAccountsService } from '../services/accounts.interface';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('account')
 export class AccountsController {
@@ -23,7 +24,7 @@ export class AccountsController {
   }
 
   @Get('/me')
-  async getMyDetails(@RequestUserId() userId: string) {
+  async getMyDetails(@RequestUserId() userId: string): Promise<User> {
     return this.usersService.findById(userId);
   }
 
