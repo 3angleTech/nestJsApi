@@ -6,7 +6,7 @@ Web API stub project written in Node.js using [Nest](https://github.com/nestjs/n
 ## Prerequisites
 
 ### Node.js
-- Version v18.13.x
+- Version v20.14.x
 - The recommended way to install Node.js is [NVM](https://github.com/nvm-sh/nvm)
 
 ### NestJS cli
@@ -123,3 +123,21 @@ npm run test:e2e
 # check for vulnerabilities
 npm audit
 ```
+
+
+#Api Client Generator
+
+# Local generation with JDK and openapi cli
+npm install @openapitools/openapi-generator-cli --save-dev
+
+brew install openjdk@11
+
+# Add to ~/.bashrc or ~/.bash_profile
+export JAVA_HOME=/usr/local/opt/openjdk@11
+export PATH=$JAVA_HOME/bin:$PATH
+
+- start local app on port 3000
+ 
+## HELP cli
+
+npmr run build:api-client
