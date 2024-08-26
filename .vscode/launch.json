@@ -16,8 +16,8 @@
               "--no-cache",
               // For unit tests we used the default config file, for speed
           ],
-          "console": "integratedTerminal",
-          "internalConsoleOptions": "neverOpen",
+          // Show in Debug Console
+          "console": "internalConsole",
           "env": {
               "NODE_ENV": "test"
           },
@@ -37,10 +37,10 @@
               "--no-cache",
               "--config",
               // We need to specity the jest config file to use for E2E tests.
-              "./test/jest-e2e.ts"
+              "./test/jest-e2e.ts",
           ],
-          "console": "integratedTerminal",
-          "internalConsoleOptions": "neverOpen",
+          // Show in Debug Console
+          "console": "internalConsole",
           "env": {
               "NODE_ENV": "test"
           },
