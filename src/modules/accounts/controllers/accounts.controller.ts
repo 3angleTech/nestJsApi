@@ -1,18 +1,16 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 
 import { RequestUserId, SkipAccessTokenGuard } from '~common/auth';
-import { CreateUserDto, IUsersService, User, USERS_SERVICE } from '~common/users';
+import { CreateUserDto, IUsersService, User, UsersService } from '~common/users';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ACCOUNTS_SERVICE, IAccountsService } from '../services/accounts.interface';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
-import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('account')
 export class AccountsController {
   constructor(
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
     @Inject(ACCOUNTS_SERVICE)
     private readonly accountsService: IAccountsService,
   ) {}

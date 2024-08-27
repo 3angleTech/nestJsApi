@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { verify } from '~common/crypto';
-import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { User, UsersService } from '~common/users';
 import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
@@ -16,8 +16,7 @@ export const REFRESH_TOKEN_COOKIE_NAME: string = 'refreshToken';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}

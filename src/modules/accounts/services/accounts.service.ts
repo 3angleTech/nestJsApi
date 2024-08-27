@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Logger, UnauthorizedException } from '@nestjs/common';
 
-import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { IUsersService, User, UsersService } from '~common/users';
 import { encrypt } from '~common/crypto';
 import { AUTH_SERVICE, IAuthService, JwtPayload } from '~modules/auth';
 
@@ -21,8 +21,7 @@ export class AccountsService implements IAccountsService {
     private readonly accountEmailsService: IAccountEmailsService,
     @Inject(AUTH_SERVICE)
     private readonly authService: IAuthService,
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
   ) {
   }
 

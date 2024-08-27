@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { Email, EMAILS_SERVICE, IEmailsService } from '~common/emails';
-import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { User, UsersService } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
 import { SecurityConfiguration } from '~config/security.config';
@@ -18,8 +18,7 @@ export class AccountEmailsService implements IAccountEmailsService {
     private readonly emailService: IEmailsService,
     @Inject(AUTH_SERVICE)
     private readonly authService: IAuthService,
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}
 

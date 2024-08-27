@@ -4,7 +4,14 @@ import { DeepPartial, Repository } from 'typeorm';
 
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
-import { IUsersService } from './users.interface';
+
+export interface IUsersService {
+  create(createUserDto: CreateUserDto): Promise<User>;
+  findById(id: string): Promise<User>;
+  findByUsername(username: string): Promise<User | null>
+  findByEmail(email: string): Promise<User | null>
+  update(userId: string, user: DeepPartial<User>): Promise<User>;
+}
 
 const USERNAME_ALREADY_EXISTS = 'SERVER_ERROR.USER.USERNAME_ALREADY_EXISTS';
 const USER_EMAIL_ALREADY_EXISTS = 'SERVER_ERROR.USER.EMAIL_ALREADY_EXISTS';
