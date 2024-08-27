@@ -6,9 +6,9 @@ import { User, UsersService } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
 import { SecurityConfiguration } from '~config/security.config';
-import { AUTH_SERVICE, IAuthService } from '~modules/auth';
 
 import { IAccountEmailsService } from './account-emails.interface';
+import { AuthService } from '~modules/auth';
 
 @Injectable()
 export class AccountEmailsService implements IAccountEmailsService {
@@ -16,8 +16,7 @@ export class AccountEmailsService implements IAccountEmailsService {
   constructor(
     @Inject(EMAILS_SERVICE)
     private readonly emailService: IEmailsService,
-    @Inject(AUTH_SERVICE)
-    private readonly authService: IAuthService,
+    private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}

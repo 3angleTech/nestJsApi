@@ -8,7 +8,14 @@ import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
 import { JwtPayload } from '../interfaces/jwt-payload';
-import { IAuthService } from './auth.interface';
+
+export interface IAuthService {
+  login(authDto: AuthDto): Promise<User>;
+  getTokens(userId: string, username: string);
+  getAccessToken(userId: string, username: string);
+  getGenericToken(userId: string, email: string, expiresIn: string): Promise<string>;
+  verifyGenericToken(token: string): JwtPayload;
+}
 
 export const ACCESS_TOKEN_COOKIE_NAME: string = 'accessToken';
 export const REFRESH_TOKEN_COOKIE_NAME: string = 'refreshToken';

@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Logger, UnauthorizedException } from '@nes
 
 import { IUsersService, User, UsersService } from '~common/users';
 import { encrypt } from '~common/crypto';
-import { AUTH_SERVICE, IAuthService, JwtPayload } from '~modules/auth';
+import { AuthService, JwtPayload } from '~modules/auth';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
@@ -19,8 +19,7 @@ export class AccountsService implements IAccountsService {
   constructor(
     @Inject(ACCOUNT_EMAILS_SERVICE)
     private readonly accountEmailsService: IAccountEmailsService,
-    @Inject(AUTH_SERVICE)
-    private readonly authService: IAuthService,
+    private readonly authService: AuthService,
     private readonly usersService: UsersService,
   ) {
   }

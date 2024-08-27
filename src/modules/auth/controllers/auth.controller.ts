@@ -5,14 +5,12 @@ import { User } from '~common/users';
 
 import { AuthDto, OAuth2GrantType } from '../dto/auth.dto';
 import { RefreshTokenGuard } from '../guards/refresh-token.guard';
-import { AUTH_SERVICE, IAuthService } from '../services/auth.interface';
-import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '../services/auth.service';
+import { ACCESS_TOKEN_COOKIE_NAME, AuthService, REFRESH_TOKEN_COOKIE_NAME } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject(AUTH_SERVICE)
-    private readonly authService: IAuthService,
+    private readonly authService: AuthService,
   ) {}
 
   @SkipAccessTokenGuard()
