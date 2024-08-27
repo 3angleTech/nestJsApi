@@ -7,8 +7,14 @@ import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
 import { SecurityConfiguration } from '~config/security.config';
 
-import { IAccountEmailsService } from './account-emails.interface';
 import { AuthService } from '~modules/auth';
+
+/**
+ * Provides the email service used for actions like activation, sign up, or password reset.
+ */
+export interface IAccountEmailsService {
+  sendForgotPasswordEmail(userEmail: string): Promise<void>;
+}
 
 @Injectable()
 export class AccountEmailsService implements IAccountEmailsService {

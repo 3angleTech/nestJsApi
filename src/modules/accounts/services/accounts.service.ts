@@ -1,24 +1,27 @@
-import { BadRequestException, Inject, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Logger, UnauthorizedException } from '@nestjs/common';
 
-import { IUsersService, User, UsersService } from '~common/users';
+import { User, UsersService } from '~common/users';
 import { encrypt } from '~common/crypto';
 import { AuthService, JwtPayload } from '~modules/auth';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
-import { IAccountsService } from './accounts.interface';
-import { ACCOUNT_EMAILS_SERVICE, IAccountEmailsService } from './account-emails.interface';
+import { AccountEmailsService } from './account-emails.service';
 
 const USER_FORGOT_PASSWORD_NO_USER = 'SERVER_ERROR.USER.FORGOT_PASSWORD_NO_USER';
 const USER_FORGOT_PASSWORD_INACTIVE_USER = 'SERVER_ERROR.USER.FORGOT_PASSWORD_INACTIVE_USER';
 const USER_PASSWORDS_DO_NOT_MATCH = 'SERVER_ERROR.USER.PASSWORDS_DO_NOT_MATCH';
 
+export interface IAccountsService {
+  forgotPassword(dto: ForgotPasswordDto): Promise<void>;
+  resetPassword(dto: ResetPasswordDto): Promise<void>;
+}
+
 export class AccountsService implements IAccountsService {
   private readonly logger = new Logger(AccountsService.name);
 
   constructor(
-    @Inject(ACCOUNT_EMAILS_SERVICE)
-    private readonly accountEmailsService: IAccountEmailsService,
+    private readonly accountEmailsService: AccountEmailsService,
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
   ) {

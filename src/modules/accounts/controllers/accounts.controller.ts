@@ -4,15 +4,14 @@ import { RequestUserId, SkipAccessTokenGuard } from '~common/auth';
 import { CreateUserDto, IUsersService, User, UsersService } from '~common/users';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
-import { ACCOUNTS_SERVICE, IAccountsService } from '../services/accounts.interface';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { AccountsService } from '../services/accounts.service';
 
 @Controller('account')
 export class AccountsController {
   constructor(
     private readonly usersService: UsersService,
-    @Inject(ACCOUNTS_SERVICE)
-    private readonly accountsService: IAccountsService,
+    private readonly accountsService: AccountsService,
   ) {}
 
   @SkipAccessTokenGuard()
