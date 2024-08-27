@@ -1,9 +1,10 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { verify } from '~common/crypto';
-import { User, UsersService } from '~common/users';
+import { UsersService } from '~common/users';
+import { User } from '~entities/index';
 import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
@@ -33,6 +34,7 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException();
     }
     const user = await this.usersService.findByUsername(authDto.username);
+
     if (!user) {
       throw new UnauthorizedException();
     }

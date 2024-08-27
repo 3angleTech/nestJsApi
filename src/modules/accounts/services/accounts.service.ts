@@ -1,6 +1,7 @@
 import { BadRequestException, Logger, UnauthorizedException } from '@nestjs/common';
 
-import { User, UsersService } from '~common/users';
+import { UsersService } from '~common/users';
+import { User } from '~entities/index';
 import { encrypt } from '~common/crypto';
 import { AuthService, JwtPayload } from '~modules/auth';
 

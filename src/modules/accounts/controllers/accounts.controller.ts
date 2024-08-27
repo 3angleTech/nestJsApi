@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { RequestUserId, SkipAccessTokenGuard } from '~common/auth';
-import { CreateUserDto, IUsersService, User, UsersService } from '~common/users';
+import { CreateUserDto, UsersService } from '~common/users';
+import { User } from '~entities/index';
 
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';

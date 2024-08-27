@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Inject, Post, Res, UseGuards } from '@nestjs/common';
 
 import { RequestUser, SkipAccessTokenGuard } from '~common/auth';
-import { User } from '~common/users';
+import { User } from '~entities/index';
 
 import { AuthDto, OAuth2GrantType } from '../dto/auth.dto';
 import { RefreshTokenGuard } from '../guards/refresh-token.guard';

@@ -2,10 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { Email, EmailsService } from '~common/emails';
-import { User, UsersService } from '~common/users';
+import { UsersService } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
 import { SecurityConfiguration } from '~config/security.config';
+import { User } from '~entities/index';
 
 import { AuthService } from '~modules/auth';
 
