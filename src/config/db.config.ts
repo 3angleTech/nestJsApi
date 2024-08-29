@@ -13,6 +13,11 @@ export interface DBConfiguration {
   entities: string[],
 }
 
+console.log('process.env.DB_LOGS', process.env.DB_LOGS);
+console.log('process.env.POSTGRES_HOST', process.env.POSTGRES_HOST);
+console.log('process.env.POSTGRES_PORT', process.env.POSTGRES_PORT);
+console.log('process.env.POSTGRES_USER', process.env.POSTGRES_USER);
+
 export default registerAs('db', (): DBConfiguration => {
   return {
     type: 'postgres',
