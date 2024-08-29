@@ -32,6 +32,17 @@ jobs:
         working-directory: .
         run: npm run build
 
-      - name: 'Test'
+      - name: 'Start the docker containers'
+        working-directory: .
+        run: |
+          docker-compose -f ./docker-compose.yml up -d 3at-postgres
+
+      - name: 'Unit Tests'
         working-directory: .
         run: npm run test
+
+      - name: 'E2E tests'
+        env:
+          POSTGRES_HOST: 3at-nest-postgres  # Set the environment variable
+        working-directory: .
+        run: npm run test:e2e
