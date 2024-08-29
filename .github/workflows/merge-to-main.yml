@@ -48,6 +48,8 @@ jobs:
           set -o allexport
           source .env
           set -o allexport
+          # Verify that the variables are loaded
+          env | grep -E 'NODE_ENV|APP_PORT|DB_LOGS|POSTGRES_HOST|POSTGRES_PORT'
 
       - name: 'Print environment variables'
         run: |
