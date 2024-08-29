@@ -32,14 +32,25 @@ jobs:
         working-directory: .
         run: npm run build
 
+      - name: 'Unit Tests'
+        working-directory: .
+        run: npm run test
+
+
+
+      - name: 'Set up Docker'
+        uses: docker-practice/github-actions-docker-install@v0.2.1
+
+      - name: 'Install Docker Compose'
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: 'Start the docker containers'
         working-directory: .
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
-
-      - name: 'Unit Tests'
-        working-directory: .
-        run: npm run test
 
       - name: 'E2E tests'
         env:
