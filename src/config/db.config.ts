@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { registerAs } from '@nestjs/config';
 import { join } from 'path';
 
