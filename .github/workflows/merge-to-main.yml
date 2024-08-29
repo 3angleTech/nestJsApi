@@ -18,10 +18,10 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
 
-      - name: 'Print env.Test'
-        run: |
-          printenv
-        # echo "${{ env.TEST }}"
+      # This is to test if the environment TEST is set
+      # - name: 'Print env.Test'
+      #   run: |
+      #     echo "${{ env.TEST }}"
 
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
@@ -49,16 +49,14 @@ jobs:
       #     set -o allexport
       #     source .env
       #     set -o allexport
-      #     # Verify that the variables are loaded
-      #     env | grep -E 'NODE_ENV|APP_PORT|DB_LOGS|POSTGRES_HOST|POSTGRES_PORT'
 
-      - name: 'Print environment variables'
-        run: |
-          echo "NODE_ENV: $NODE_ENV"
-          echo "APP_PORT: $APP_PORT"
-          echo "DB_LOGS: $DB_LOGS"
-          echo "POSTGRES_HOST: $POSTGRES_HOST"
-          echo "POSTGRES_PORT: $POSTGRES_PORT"
+      # - name: 'Print environment variables'
+      #   run: |
+      #     echo "NODE_ENV: $NODE_ENV"
+      #     echo "APP_PORT: $APP_PORT"
+      #     echo "DB_LOGS: $DB_LOGS"
+      #     echo "POSTGRES_HOST: $POSTGRES_HOST"
+      #     echo "POSTGRES_PORT: $POSTGRES_PORT"
 
       - name: 'Install Docker Compose'
         run: |
@@ -71,6 +69,7 @@ jobs:
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
 
+      # We should remove the hardcoded env variables and use the ones from the .env file
       - name: 'Run migration scripts'
         working-directory: .
         run: npm run migration:run
