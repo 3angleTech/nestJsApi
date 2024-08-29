@@ -70,6 +70,19 @@ jobs:
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
 
+      - name: 'Run migration scripts'
+        working-directory: .
+        run: npm run migration:run
+        env:
+          POSTGRES_HOST: localhost  # Set the environment variable
+          NODE_ENV: development
+          APP_PORT: 3000
+          DB_LOGS: all
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: threeangle
+          POSTGRES_PASSWORD: threeangle
+          POSTGRES_DB: threeangle
+
       - name: 'E2E tests'
         env:
           POSTGRES_HOST: localhost  # Set the environment variable
