@@ -1,11 +1,10 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
-import { IUsersService, USERS_SERVICE } from '~common/users';
+import { IUsersService, UsersService } from '~common/users';
 
 @Controller('users')
 export class UsersController {
   constructor(
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Get(':id')

@@ -1,14 +1,22 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { verify } from '~common/crypto';
-import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { UsersService } from '~common/users';
+import { User } from '~entities/index';
 import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
 import { JwtPayload } from '../interfaces/jwt-payload';
-import { IAuthService } from './auth.interface';
+
+export interface IAuthService {
+  login(authDto: AuthDto): Promise<User>;
+  getTokens(userId: string, username: string);
+  getAccessToken(userId: string, username: string);
+  getGenericToken(userId: string, email: string, expiresIn: string): Promise<string>;
+  verifyGenericToken(token: string): JwtPayload;
+}
 
 export const ACCESS_TOKEN_COOKIE_NAME: string = 'accessToken';
 export const REFRESH_TOKEN_COOKIE_NAME: string = 'refreshToken';
@@ -16,8 +24,7 @@ export const REFRESH_TOKEN_COOKIE_NAME: string = 'refreshToken';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -27,6 +34,7 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException();
     }
     const user = await this.usersService.findByUsername(authDto.username);
+
     if (!user) {
       throw new UnauthorizedException();
     }

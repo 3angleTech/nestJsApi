@@ -1,25 +1,29 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { Email, EMAILS_SERVICE, IEmailsService } from '~common/emails';
-import { IUsersService, User, USERS_SERVICE } from '~common/users';
+import { Email, EmailsService } from '~common/emails';
+import { UsersService } from '~common/users';
 import { EmailConfiguration } from '~config/email.config';
 import { EnvironmentConfiguration } from '~config/environment.config';
 import { SecurityConfiguration } from '~config/security.config';
-import { AUTH_SERVICE, IAuthService } from '~modules/auth';
+import { User } from '~entities/index';
 
-import { IAccountEmailsService } from './account-emails.interface';
+import { AuthService } from '~modules/auth';
+
+/**
+ * Provides the email service used for actions like activation, sign up, or password reset.
+ */
+export interface IAccountEmailsService {
+  sendForgotPasswordEmail(userEmail: string): Promise<void>;
+}
 
 @Injectable()
 export class AccountEmailsService implements IAccountEmailsService {
   // eslint-disable-next-line max-params
   constructor(
-    @Inject(EMAILS_SERVICE)
-    private readonly emailService: IEmailsService,
-    @Inject(AUTH_SERVICE)
-    private readonly authService: IAuthService,
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    private readonly emailService: EmailsService,
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}
 

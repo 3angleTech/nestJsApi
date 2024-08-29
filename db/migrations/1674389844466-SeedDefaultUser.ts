@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { User } from '~common/users';
 import { DefaultUser } from '../seeds/default-user';
+import { User } from '~entities/index';
 
 export class SeedDefaultUser1674389844466 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

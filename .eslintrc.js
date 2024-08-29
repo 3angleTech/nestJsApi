@@ -34,6 +34,12 @@ module.exports = {
       rules: {
         "indent": "off",
       }
+    },
+    {
+      "files": ["src/**/*.spec.ts", "test/**/*.ts"],
+      "rules": {
+        "max-classes-per-file": "off"
+      }
     }
   ]
 };

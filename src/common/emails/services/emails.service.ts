@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-
-import { EMAIL_PROVIDER_DRIVER, IEmailProviderDriver } from './email-provider-driver.interface';
 import { Email, IEmailsService } from './emails.service.interface';
+import { EMAIL_PROVIDER_DRIVER, IEmailProviderDriver } from './email-provider-driver.interface';
 
 @Injectable()
 export class EmailsService implements IEmailsService {

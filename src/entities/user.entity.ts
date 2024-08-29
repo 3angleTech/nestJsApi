@@ -1,7 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { BaseEntity } from '~common/core';
 import { encrypt } from '~common/crypto';
 
 @Entity()

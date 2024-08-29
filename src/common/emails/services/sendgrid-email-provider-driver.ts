@@ -4,10 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 
 import { EmailConfiguration } from '~config/email.config';
-
 import { IEmailProviderDriver } from './email-provider-driver.interface';
 import { Email } from './emails.service.interface';
-
 const SendGridMail = require('@sendgrid/mail');
 
 @Injectable()
