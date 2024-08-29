@@ -72,7 +72,7 @@ jobs:
 
       - name: 'E2E tests'
         env:
-          POSTGRES_HOST: 3at-nest-postgres  # Set the environment variable
+          POSTGRES_HOST: localhost  # Set the environment variable
           NODE_ENV: development
           APP_PORT: 3000
           DB_LOGS: all
