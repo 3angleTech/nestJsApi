@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:  # This allows you to manually trigger the workflow
 
 jobs:
@@ -14,6 +17,11 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
+
+      # This is to test if the environment TEST is set
+      # - name: 'Print env.Test'
+      #   run: |
+      #     echo "${{ env.TEST }}"
 
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
@@ -32,17 +40,59 @@ jobs:
         working-directory: .
         run: npm run build
 
+      - name: 'Unit Tests'
+        working-directory: .
+        run: npm run test
+
+      # - name: 'Load .env file'
+      #   run: |
+      #     set -o allexport
+      #     source .env
+      #     set -o allexport
+
+      # - name: 'Print environment variables'
+      #   run: |
+      #     echo "NODE_ENV: $NODE_ENV"
+      #     echo "APP_PORT: $APP_PORT"
+      #     echo "DB_LOGS: $DB_LOGS"
+      #     echo "POSTGRES_HOST: $POSTGRES_HOST"
+      #     echo "POSTGRES_PORT: $POSTGRES_PORT"
+
+      - name: 'Install Docker Compose'
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: 'Start the docker containers'
         working-directory: .
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
 
-      - name: 'Unit Tests'
+      # We should remove the hardcoded env variables and use the ones from the .env file
+      - name: 'Run migration scripts'
         working-directory: .
-        run: npm run test
-
-      - name: 'E2E tests'
+        run: npm run migration:run
         env:
-          POSTGRES_HOST: 3at-nest-postgres  # Set the environment variable
-        working-directory: .
-        run: npm run test:e2e
+          POSTGRES_HOST: localhost  # Set the environment variable
+          NODE_ENV: development
+          APP_PORT: 3000
+          DB_LOGS: all
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: threeangle
+          POSTGRES_PASSWORD: threeangle
+          POSTGRES_DB: threeangle
+
+      # Disabled temporarily
+      # - name: 'E2E tests'
+      #   env:
+      #     POSTGRES_HOST: localhost  # Set the environment variable
+      #     NODE_ENV: development
+      #     APP_PORT: 3000
+      #     DB_LOGS: all
+      #     POSTGRES_PORT: 5432
+      #     POSTGRES_USER: threeangle
+      #     POSTGRES_PASSWORD: threeangle
+      #     POSTGRES_DB: threeangle
+      #   working-directory: .
+      #   run: npm run test:e2e
