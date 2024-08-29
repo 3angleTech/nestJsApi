@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 import { registerAs } from '@nestjs/config';
-import { log } from 'console';
 import { join } from 'path';
 
 export interface DBConfiguration {
@@ -14,11 +12,6 @@ export interface DBConfiguration {
   synchronize: boolean,
   entities: string[],
 }
-
-log('process.env.DB_LOGS', process.env.DB_LOGS);
-log('process.env.POSTGRES_HOST', process.env.POSTGRES_HOST);
-log('process.env.POSTGRES_PORT', process.env.POSTGRES_PORT);
-log('process.env.POSTGRES_USER', process.env.POSTGRES_USER);
 
 export default registerAs('db', (): DBConfiguration => {
   return {
