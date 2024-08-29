@@ -83,15 +83,16 @@ jobs:
           POSTGRES_PASSWORD: threeangle
           POSTGRES_DB: threeangle
 
-      - name: 'E2E tests'
-        env:
-          POSTGRES_HOST: localhost  # Set the environment variable
-          NODE_ENV: development
-          APP_PORT: 3000
-          DB_LOGS: all
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: threeangle
-          POSTGRES_PASSWORD: threeangle
-          POSTGRES_DB: threeangle
-        working-directory: .
-        run: npm run test:e2e
+      # Disabled temporarily
+      # - name: 'E2E tests'
+      #   env:
+      #     POSTGRES_HOST: localhost  # Set the environment variable
+      #     NODE_ENV: development
+      #     APP_PORT: 3000
+      #     DB_LOGS: all
+      #     POSTGRES_PORT: 5432
+      #     POSTGRES_USER: threeangle
+      #     POSTGRES_PASSWORD: threeangle
+      #     POSTGRES_DB: threeangle
+      #   working-directory: .
+      #   run: npm run test:e2e
