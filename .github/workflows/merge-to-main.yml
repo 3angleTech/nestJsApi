@@ -33,6 +33,7 @@ jobs:
         run: npm run build
 
       - name: 'Start the docker containers'
+        working-directory: .
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
 
