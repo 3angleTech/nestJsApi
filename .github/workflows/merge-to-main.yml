@@ -36,8 +36,6 @@ jobs:
         working-directory: .
         run: npm run test
 
-
-
       - name: 'Set up Docker'
         uses: docker-practice/github-actions-docker-install@v0.2.1
 
