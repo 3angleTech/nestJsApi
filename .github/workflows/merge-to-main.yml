@@ -41,7 +41,8 @@ jobs:
 
       - name: 'Write secrets to .env file'
         run: |
-          echo "${{ secrets.ENV_FILE_CONTENTS }}" > .env
+          echo "${{ variable.ENV_FILE_CONTENTS }}"
+          echo "${{ variable.ENV_FILE_CONTENTS }}" > .env
 
       - name: 'Load .env file'
         run: |
