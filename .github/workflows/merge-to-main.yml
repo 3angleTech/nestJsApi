@@ -39,6 +39,24 @@ jobs:
         working-directory: .
         run: npm run test
 
+      - name: 'Write secrets to .env file'
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENTS }}" > .env
+
+      - name: 'Load .env file'
+        run: |
+          set -o allexport
+          source .env
+          set -o allexport
+
+          - name: 'Print environment variables'
+          run: |
+            echo "NODE_ENV: $NODE_ENV"
+            echo "APP_PORT: $APP_PORT"
+            echo "DB_LOGS: $DB_LOGS"
+            echo "POSTGRES_HOST: $POSTGRES_HOST"
+            echo "POSTGRES_PORT: $POSTGRES_PORT"
+
       - name: 'Install Docker Compose'
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
