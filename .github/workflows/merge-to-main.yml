@@ -18,6 +18,10 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
 
+      - name: 'Write secrets to .env file'
+        run: |
+          echo "${{ env.TEST }}"
+
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
         with:
@@ -39,18 +43,13 @@ jobs:
         working-directory: .
         run: npm run test
 
-      - name: 'Write secrets to .env file'
-        run: |
-          echo "${{ env.ENV_FILE_CONTENTS }}"
-          echo "${{ env.ENV_FILE_CONTENTS }}" > .env
-
-      - name: 'Load .env file'
-        run: |
-          set -o allexport
-          source .env
-          set -o allexport
-          # Verify that the variables are loaded
-          env | grep -E 'NODE_ENV|APP_PORT|DB_LOGS|POSTGRES_HOST|POSTGRES_PORT'
+      # - name: 'Load .env file'
+      #   run: |
+      #     set -o allexport
+      #     source .env
+      #     set -o allexport
+      #     # Verify that the variables are loaded
+      #     env | grep -E 'NODE_ENV|APP_PORT|DB_LOGS|POSTGRES_HOST|POSTGRES_PORT'
 
       - name: 'Print environment variables'
         run: |
