@@ -28,6 +28,7 @@ jobs:
           set -o allexport
           source .env.test
           set -o allexport
+          echo "::set-env name=POSTGRES_HOST::$POSTGRES_HOST"
 
       - name: 'Echo loaded environment variables'
         run: |
