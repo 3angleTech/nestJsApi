@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MockEmailProviderDriver } from '../src/common/emails/services/mock-email-provider-driver';
 import { VerboseTestLogger } from './verbose-test-logger';
+import { log } from 'console';
+
+log(process.env.POSTGRES_HOST);
 
 describe('Users Service (e2e)', () => {
   let service: MockEmailProviderDriver;
