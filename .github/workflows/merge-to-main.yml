@@ -69,6 +69,29 @@ jobs:
         run: |
           docker-compose -f ./docker-compose.yml up -d 3at-postgres
 
+      - name: 'Print .env.test content'
+        run: |
+          echo "Content of .env.test file:"
+          cat .env.test
+
+      - name: 'Load environment variables from .env.test'
+        run: |
+          set -o allexport
+          source .env.test
+          set -o allexport
+
+      - name: 'Echo loaded environment variables'
+        run: |
+          echo "Loaded environment variables:"
+          echo "NODE_ENV: $NODE_ENV"
+          echo "APP_PORT: $APP_PORT"
+          echo "DB_LOGS: $DB_LOGS"
+          echo "POSTGRES_HOST: $POSTGRES_HOST"
+          echo "POSTGRES_PORT: $POSTGRES_PORT"
+          echo "POSTGRES_USER: $POSTGRES_USER"
+          echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+          echo "POSTGRES_DB: $POSTGRES_DB"
+
       # We should remove the hardcoded env variables and use the ones from the .env file
       - name: 'Run migration scripts'
         working-directory: .
