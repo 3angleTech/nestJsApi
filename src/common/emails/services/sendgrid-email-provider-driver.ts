@@ -6,7 +6,10 @@ import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import { EmailConfiguration } from '~config/email.config';
 import { IEmailProviderDriver } from './email-provider-driver.interface';
 import { Email } from './emails.service.interface';
+import { log } from 'console';
 const SendGridMail = require('@sendgrid/mail');
+
+log(process.env.POSTGRES_HOST);
 
 @Injectable()
 export class SendGridEmailProviderDriver implements IEmailProviderDriver {
