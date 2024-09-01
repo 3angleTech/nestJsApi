@@ -48,11 +48,6 @@ jobs:
       #   run: |
       #     echo "${{ env.TEST }}"
 
-      # This is to test if the environment TEST is set
-      # - name: 'Print env.Test'
-      #   run: |
-      #     echo "${{ env.TEST }}"
-
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
         with:
