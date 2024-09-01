@@ -52,7 +52,6 @@ jobs:
         working-directory: .
         run: npm run migration:run
 
-      #Disabled temporarily
       - name: 'E2E tests'
         working-directory: .
         run: npm run test:e2e
