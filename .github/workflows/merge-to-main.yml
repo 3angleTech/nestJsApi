@@ -28,7 +28,7 @@ jobs:
           set -o allexport
           source .env.test
           set -o allexport
-          echo "::set-env name=POSTGRES_HOST::$POSTGRES_HOST"
+          echo "POSTGRES_HOST=$POSTGRES_HOST" >> $GITHUB_ENV
 
       - name: 'Echo loaded environment variables'
         run: |
