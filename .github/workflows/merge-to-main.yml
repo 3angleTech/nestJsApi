@@ -28,7 +28,25 @@ jobs:
           set -o allexport
           source .env.test
           set -o allexport
+          echo "NODE_ENV=$NODE_ENV" >> $GITHUB_ENV
+          echo "APP_PORT=$APP_PORT" >> $GITHUB_ENV
+          echo "DB_LOGS=$DB_LOGS" >> $GITHUB_ENV
           echo "POSTGRES_HOST=$POSTGRES_HOST" >> $GITHUB_ENV
+          echo "POSTGRES_PORT=$POSTGRES_PORT" >> $GITHUB_ENV
+          echo "POSTGRES_USER=$POSTGRES_USER" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $GITHUB_ENV
+          echo "POSTGRES_DB=$POSTGRES_DB" >> $GITHUB_ENV
+          echo "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET" >> $GITHUB_ENV
+          echo "ACCESS_TOKEN_EXPIRATION_TIME=$ACCESS_TOKEN_EXPIRATION_TIME" >> $GITHUB_ENV
+          echo "REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET" >> $GITHUB_ENV
+          echo "REFRESH_TOKEN_EXPIRATION_TIME=$REFRESH_TOKEN_EXPIRATION_TIME" >> $GITHUB_ENV
+          echo "TOKENS_ISSUER=$TOKENS_ISSUER" >> $GITHUB_ENV
+          echo "TOKENS_ALGORITHM=$TOKENS_ALGORITHM" >> $GITHUB_ENV
+          echo "GENERIC_TOKEN_SECRET=$GENERIC_TOKEN_SECRET" >> $GITHUB_ENV
+          echo "GENERIC_TOKEN_EXPIRATION_TIME_IN_HOURS=$GENERIC_TOKEN_EXPIRATION_TIME_IN_HOURS" >> $GITHUB_ENV
+          echo "EMAIL_FROM=$EMAIL_FROM" >> $GITHUB_ENV
+          echo "EMAIL_TEMPLATE_ID_FORGOT_PASSWORD=$EMAIL_TEMPLATE_ID_FORGOT_PASSWORD" >> $GITHUB_ENV
+          echo "CLIENT_BASE_URL=$CLIENT_BASE_URL" >> $GITHUB_ENV
 
       - name: 'Echo loaded environment variables'
         run: |
@@ -69,21 +87,6 @@ jobs:
       - name: 'Unit Tests'
         working-directory: .
         run: npm run test
-
-      # - name: 'Load .env file'
-      #   run: |
-      #     set -o allexport
-      #     source .env
-      #     set -o allexport
-
-      # - name: 'Print environment variables'
-      #   run: |
-      #     echo "NODE_ENV: $NODE_ENV"
-      #     echo "APP_PORT: $APP_PORT"
-      #     echo "DB_LOGS: $DB_LOGS"
-      #     echo "POSTGRES_HOST: $POSTGRES_HOST"
-      #     echo "POSTGRES_PORT: $POSTGRES_PORT"
-
       - name: 'Install Docker Compose'
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -93,26 +96,6 @@ jobs:
       - name: 'Unit Tests'
         working-directory: .
         run: npm run test
-
-      # - name: 'Load .env file'
-      #   run: |
-      #     set -o allexport
-      #     source .env
-      #     set -o allexport
-
-      # - name: 'Print environment variables'
-      #   run: |
-      #     echo "NODE_ENV: $NODE_ENV"
-      #     echo "APP_PORT: $APP_PORT"
-      #     echo "DB_LOGS: $DB_LOGS"
-      #     echo "POSTGRES_HOST: $POSTGRES_HOST"
-      #     echo "POSTGRES_PORT: $POSTGRES_PORT"
-
-      - name: 'Install Docker Compose'
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
 
       - name: 'Start the docker containers'
         working-directory: .
@@ -133,16 +116,7 @@ jobs:
           POSTGRES_PASSWORD: threeangle
           POSTGRES_DB: threeangle
 
-      # Disabled temporarily
-      # - name: 'E2E tests'
-      #   env:
-      #     POSTGRES_HOST: localhost  # Set the environment variable
-      #     NODE_ENV: development
-      #     APP_PORT: 3000
-      #     DB_LOGS: all
-      #     POSTGRES_PORT: 5432
-      #     POSTGRES_USER: threeangle
-      #     POSTGRES_PASSWORD: threeangle
-      #     POSTGRES_DB: threeangle
-      #   working-directory: .
-      #   run: npm run test:e2e
+      #Disabled temporarily
+      - name: 'E2E tests'
+        working-directory: .
+        run: npm run test:e2e
