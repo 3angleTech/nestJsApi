@@ -18,11 +18,6 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
 
-      - name: 'Print .env.test content'
-        run: |
-          echo "Content of .env.test file:"
-          cat .env.test
-
       - name: 'Load environment variables from .env.test'
         run: |
           set -o allexport
@@ -47,25 +42,6 @@ jobs:
           echo "EMAIL_FROM=$EMAIL_FROM" >> $GITHUB_ENV
           echo "EMAIL_TEMPLATE_ID_FORGOT_PASSWORD=$EMAIL_TEMPLATE_ID_FORGOT_PASSWORD" >> $GITHUB_ENV
           echo "CLIENT_BASE_URL=$CLIENT_BASE_URL" >> $GITHUB_ENV
-
-      - name: 'Echo loaded environment variables'
-        run: |
-          echo "Loaded environment variables:"
-          echo "NODE_ENV: $NODE_ENV"
-          echo "APP_PORT: $APP_PORT"
-          echo "DB_LOGS: $DB_LOGS"
-          echo "POSTGRES_HOST: $POSTGRES_HOST"
-          echo "POSTGRES_PORT: $POSTGRES_PORT"
-          echo "POSTGRES_USER: $POSTGRES_USER"
-          echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
-          echo "POSTGRES_DB: $POSTGRES_DB"
-
-
-
-      # This is to test if the environment TEST is set
-      # - name: 'Print env.Test'
-      #   run: |
-      #     echo "${{ env.TEST }}"
 
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
@@ -106,15 +82,6 @@ jobs:
       - name: 'Run migration scripts'
         working-directory: .
         run: npm run migration:run
-        env:
-          POSTGRES_HOST: localhost  # Set the environment variable
-          NODE_ENV: development
-          APP_PORT: 3000
-          DB_LOGS: all
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: threeangle
-          POSTGRES_PASSWORD: threeangle
-          POSTGRES_DB: threeangle
 
       #Disabled temporarily
       - name: 'E2E tests'
