@@ -18,32 +18,8 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
 
-      - name: 'Load environment variables from .env.test'
-        run: |
-          set -o allexport
-          source .env.test
-          set -o allexport
-          cp .env.test .env
-
-        # echo "NODE_ENV=$NODE_ENV" >> $GITHUB_ENV
-        # echo "APP_PORT=$APP_PORT" >> $GITHUB_ENV
-        # echo "DB_LOGS=$DB_LOGS" >> $GITHUB_ENV
-        # echo "POSTGRES_HOST=$POSTGRES_HOST" >> $GITHUB_ENV
-        # echo "POSTGRES_PORT=$POSTGRES_PORT" >> $GITHUB_ENV
-        # echo "POSTGRES_USER=$POSTGRES_USER" >> $GITHUB_ENV
-        # echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $GITHUB_ENV
-        # echo "POSTGRES_DB=$POSTGRES_DB" >> $GITHUB_ENV
-        # echo "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET" >> $GITHUB_ENV
-        # echo "ACCESS_TOKEN_EXPIRATION_TIME=$ACCESS_TOKEN_EXPIRATION_TIME" >> $GITHUB_ENV
-        # echo "REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET" >> $GITHUB_ENV
-        # echo "REFRESH_TOKEN_EXPIRATION_TIME=$REFRESH_TOKEN_EXPIRATION_TIME" >> $GITHUB_ENV
-        # echo "TOKENS_ISSUER=$TOKENS_ISSUER" >> $GITHUB_ENV
-        # echo "TOKENS_ALGORITHM=$TOKENS_ALGORITHM" >> $GITHUB_ENV
-        # echo "GENERIC_TOKEN_SECRET=$GENERIC_TOKEN_SECRET" >> $GITHUB_ENV
-        # echo "GENERIC_TOKEN_EXPIRATION_TIME_IN_HOURS=$GENERIC_TOKEN_EXPIRATION_TIME_IN_HOURS" >> $GITHUB_ENV
-        # echo "EMAIL_FROM=$EMAIL_FROM" >> $GITHUB_ENV
-        # echo "EMAIL_TEMPLATE_ID_FORGOT_PASSWORD=$EMAIL_TEMPLATE_ID_FORGOT_PASSWORD" >> $GITHUB_ENV
-        # echo "CLIENT_BASE_URL=$CLIENT_BASE_URL" >> $GITHUB_ENV
+      - name: 'Copy .env.test to .env'
+        run: cp .env.test .env
 
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
