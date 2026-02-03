@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { IRequestUser } from '~common/auth';
@@ -12,27 +13,26 @@ import { JwtPayload } from '../interfaces/jwt-payload';
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly configService: ConfigService) {
+    const securityConfiguration = configService.get<SecurityConfiguration>('security')!;
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(),
         AccessTokenStrategy.extractTokenFromCookies,
       ]),
-      secretOrKey: configService.get<SecurityConfiguration>('security')?.accessTokenSecret,
+      secretOrKey: securityConfiguration.accessTokenSecret,
       ignoreExpiration: false,
     });
   }
 
-  validate(payload: JwtPayload): IRequestUser {
+  public validate(payload: JwtPayload): IRequestUser {
     return {
       userId: payload.sub,
       username: payload.username,
     };
   }
 
-  private static extractTokenFromCookies(req): string | null {
-    if (req.cookies && ACCESS_TOKEN_COOKIE_NAME in req.cookies) {
-      return req.cookies[ACCESS_TOKEN_COOKIE_NAME];
-    }
-    return null;
+  private static extractTokenFromCookies(req: Request): string | null {
+    const token = req?.cookies?.[ACCESS_TOKEN_COOKIE_NAME] as string | undefined;
+    return token || null;
   }
 }

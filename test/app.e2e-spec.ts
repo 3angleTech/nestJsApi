@@ -1,12 +1,15 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as supertest from 'supertest';
+import { Test as SuperTest } from 'supertest';
+import { Server } from 'http';
 
 import { AppModule } from './../src/app.module';
 import { assertIsObject, createTestApplication, JSON_MIME_TYPE } from './utils';
+import TestAgent from 'supertest/lib/agent';
 
 describe('AppController (e2e)', () => {
-  let agent: supertest.SuperAgentTest;
+  let agent: TestAgent<SuperTest>;
   let app: INestApplication;
 
   afterAll(async () => {
@@ -22,7 +25,8 @@ describe('AppController (e2e)', () => {
   });
 
   beforeEach(() => {
-    agent = supertest.agent(app.getHttpServer());
+    const server = app.getHttpServer() as Server;
+    agent = supertest.agent(server);
   });
 
   it('Should be running.', async () => {

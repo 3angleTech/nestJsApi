@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { IRequestUser } from '~common/auth';
@@ -15,12 +16,13 @@ export class RefreshTokenStrategy extends PassportStrategy(
   'jwt-refresh',
 ) {
   constructor(private readonly configService: ConfigService) {
+    const securityConfig = configService.get<SecurityConfiguration>('security')!;
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(),
         RefreshTokenStrategy.extractTokenFromCookies,
       ]),
-      secretOrKey: configService.get<SecurityConfiguration>('security')?.refreshTokenSecret,
+      secretOrKey: securityConfig.refreshTokenSecret,
       ignoreExpiration: false,
     });
   }
@@ -32,10 +34,8 @@ export class RefreshTokenStrategy extends PassportStrategy(
     };
   }
 
-  private static extractTokenFromCookies(req): string | null {
-    if (req.cookies && REFRESH_TOKEN_COOKIE_NAME in req.cookies) {
-      return req.cookies[REFRESH_TOKEN_COOKIE_NAME];
-    }
-    return null;
+  private static extractTokenFromCookies(req: Request): string | null {
+    const token = req?.cookies?.[REFRESH_TOKEN_COOKIE_NAME] as string | undefined;
+    return token || null;
   }
 }

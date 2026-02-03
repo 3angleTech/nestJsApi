@@ -6,7 +6,7 @@ import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import { EmailConfiguration } from '~config/email.config';
 import { IEmailProviderDriver } from './email-provider-driver.interface';
 import { Email } from './emails.service.interface';
-const SendGridMail = require('@sendgrid/mail');
+import SendGridMail from '@sendgrid/mail';
 
 @Injectable()
 export class SendGridEmailProviderDriver implements IEmailProviderDriver {
@@ -19,6 +19,9 @@ export class SendGridEmailProviderDriver implements IEmailProviderDriver {
 
   private setApiKey(): void {
     const serviceApiKey = this.configService.get<EmailConfiguration>('email')?.serviceApiKey;
+    if (!serviceApiKey) {
+      throw new Error('SendGrid API Key is missing in the configuration.');
+    }
     SendGridMail.setApiKey(serviceApiKey);
   }
 

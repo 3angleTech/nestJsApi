@@ -20,10 +20,13 @@ import securityConfig from './config/security.config';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        ...configService.get('db'),
-        logger: 'simple-console',
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbConfig = configService.get<Record<string, unknown>>('db')!;
+        return {
+          ...dbConfig,
+          logger: 'simple-console',
+        };
+      },
     }),
     AccountsModule,
     AuthModule,

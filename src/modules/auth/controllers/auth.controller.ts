@@ -1,6 +1,7 @@
+import { Response } from 'express';
 import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 
-import { RequestUser, SkipAccessTokenGuard } from '~common/auth';
+import { IRequestUser, RequestUser, SkipAccessTokenGuard } from '~common/auth';
 import { User } from '~entities/index';
 
 import { AuthDto, OAuth2GrantType } from '../dto/auth.dto';
@@ -16,7 +17,7 @@ export class AuthController {
   @SkipAccessTokenGuard()
   @UseGuards(RefreshTokenGuard)
   @Post('token')
-  public async login(@Res({ passthrough: true }) res, @Body() authDto: AuthDto, @RequestUser() requestUser) {
+  public async login(@Res({ passthrough: true }) res: Response, @Body() authDto: AuthDto, @RequestUser() requestUser: IRequestUser) {
     if (authDto.grant_type === OAuth2GrantType.Password) {
       const user: User = await this.authService.login(authDto);
       const tokens = await this.authService.getTokens(user.id, user.username);
@@ -32,7 +33,7 @@ export class AuthController {
       return tokens;
     } else if (authDto.grant_type === OAuth2GrantType.RefreshToken) {
       const accessToken = await this.authService.getAccessToken(
-        requestUser.id,
+        requestUser.userId,
         requestUser.username,
       );
 
@@ -47,7 +48,7 @@ export class AuthController {
 
   @SkipAccessTokenGuard()
   @Get('logout')
-  public logout(@Res({ passthrough: true }) res) {
+  public logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie(ACCESS_TOKEN_COOKIE_NAME);
     res.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
 

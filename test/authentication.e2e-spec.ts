@@ -2,13 +2,16 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as supertest from 'supertest';
+import { Test as SuperTest } from 'supertest';
+import { Server } from 'http';
 
 import { DefaultUser } from '../db/seeds/default-user';
 import { AppModule } from '../src/app.module';
 import { assertIsArray, assertIsObject, createTestApplication, JSON_MIME_TYPE } from './utils';
+import TestAgent from 'supertest/lib/agent';
 
 describe('Authentication tests (e2e)', () => {
-  let agent: supertest.SuperAgentTest;
+  let agent: TestAgent<SuperTest>;
   let app: INestApplication;
   let payload: URLSearchParams;
   let response: supertest.Response;
@@ -26,7 +29,8 @@ describe('Authentication tests (e2e)', () => {
   });
 
   beforeEach(() => {
-    agent = supertest.agent(app.getHttpServer());
+    const server = app.getHttpServer() as Server;
+    agent = supertest.agent(server);
   });
 
   it('Should not be able to log in with invalid credentials', async () => {
@@ -112,7 +116,8 @@ describe('Authentication tests (e2e)', () => {
     expect(typeof response.body.id).toEqual('string');
 
     response = await agent.get('/api/v1/auth/logout').send();
-    expect(response.body.message).toEqual('Logged out successfully');
+    const body = response.body as Record<string, unknown>;
+    expect(body.message).toEqual('Logged out successfully');
     expect(response.statusCode).toEqual(HttpStatus.OK);
     expect(response.type).toEqual(JSON_MIME_TYPE);
     assertIsObject(response.body);

@@ -11,7 +11,7 @@ const compat = new FlatCompat({
 });
 
 export default [
-  // 1. Inherit their original ruleset
+  // Inherit @3angletech ruleset
   ...compat.extends('@3angletech/eslint-config/node'),
 
   {
@@ -25,6 +25,7 @@ export default [
       },
     },
     rules: {
+      indent: 'off',
       'capitalized-comments': 'off',
       'import/no-unresolved': [
         'error',
@@ -41,7 +42,6 @@ export default [
     },
   },
 
-  // 2. Exact Overrides from the original .eslintrc.js
   {
     files: ['*.entity.ts', '*.dto.ts'],
     rules: {
@@ -55,8 +55,7 @@ export default [
     },
   },
 
-  // 3. Global Ignores (Equivalent to ignorePatterns)
   {
-    ignores: ['node_modules/', 'dist/', '.eslintrc.js'],
+    ignores: ['node_modules/', 'dist/', 'eslint.config.mjs'],
   },
 ];

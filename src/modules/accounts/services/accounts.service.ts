@@ -44,7 +44,7 @@ export class AccountsService implements IAccountsService {
     let userId: string;
     try {
       const decodedToken = decodeURIComponent(dto.token);
-      const payload: JwtPayload = await this.authService.verifyGenericToken(decodedToken);
+      const payload: JwtPayload = this.authService.verifyGenericToken(decodedToken);
       userId = payload.sub;
     } catch (err) {
       throw new UnauthorizedException();
