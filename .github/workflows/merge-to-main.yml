@@ -24,7 +24,8 @@ jobs:
       - name: 'Set up Node.js'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: 'npm'
 
       - name: 'Install dependencies'
         working-directory: .
@@ -43,9 +44,11 @@ jobs:
         run: npm run test
 
       - name: 'Start the docker containers'
-        working-directory: .
         run: |
-          docker compose -f ./docker-compose.yml up -d 3at-postgres
+          docker compose up -d 3at-postgres
+          # The most compatible way to wait without loops or complex commands
+          # Just give Postgres 15 seconds to finish its 'initdb' scripts
+          sleep 15
 
       # We should remove the hardcoded env variables and use the ones from the .env file
       - name: 'Run migration scripts'

@@ -2,7 +2,7 @@
 import { ClassSerializerInterceptor, INestApplication, ValidationPipe } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { TestingModule } from '@nestjs/testing';
-import * as cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 /**
  * @see bootstrap()

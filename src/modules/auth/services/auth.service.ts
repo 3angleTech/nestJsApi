@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 
 import { verify } from '~common/crypto';
 import { UsersService } from '~common/users';
@@ -9,6 +9,9 @@ import { SecurityConfiguration } from '~config/security.config';
 
 import { AuthDto } from '../dto/auth.dto';
 import { JwtPayload } from '../interfaces/jwt-payload';
+
+type JwtExpiresIn = JwtSignOptions['expiresIn'];
+type JwtAlgorithm = JwtSignOptions['algorithm'];
 
 export interface IAuthService {
   login(authDto: AuthDto): Promise<User>;
@@ -33,8 +36,8 @@ export class AuthService implements IAuthService {
     if (!authDto.username) {
       throw new UnauthorizedException();
     }
-    const user = await this.usersService.findByUsername(authDto.username);
 
+    const user = await this.usersService.findByUsername(authDto.username);
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -60,7 +63,8 @@ export class AuthService implements IAuthService {
   }
 
   public async getAccessToken(userId: string, username: string) {
-    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    const securityConfiguration = this.configService.get<SecurityConfiguration>('security')!;
+
     return this.jwtService.signAsync(
       {
         sub: userId,
@@ -68,15 +72,16 @@ export class AuthService implements IAuthService {
       },
       {
         secret: securityConfiguration.accessTokenSecret,
-        expiresIn: securityConfiguration.accessTokenExpirationTime,
+        expiresIn: securityConfiguration.accessTokenExpirationTime as JwtExpiresIn,
         issuer: securityConfiguration.tokensIssuer,
-        algorithm: securityConfiguration.tokensAlgorithm,
+        algorithm: securityConfiguration.tokensAlgorithm as JwtAlgorithm,
       },
     );
   }
 
   public async getGenericToken(userId: string, email: string, expiresIn: string): Promise<string> {
-    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    const securityConfiguration = this.configService.get<SecurityConfiguration>('security')!;
+
     return this.jwtService.signAsync(
       {
         sub: userId,
@@ -84,22 +89,24 @@ export class AuthService implements IAuthService {
       },
       {
         secret: securityConfiguration.genericTokenSecret,
-        expiresIn: expiresIn,
+        expiresIn: expiresIn as JwtExpiresIn,
         issuer: securityConfiguration.tokensIssuer,
-        algorithm: securityConfiguration.tokensAlgorithm,
+        algorithm: securityConfiguration.tokensAlgorithm as JwtAlgorithm,
       },
     );
   }
 
   public verifyGenericToken(token: string): JwtPayload {
-    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    const securityConfiguration = this.configService.get<SecurityConfiguration>('security')!;
+
     return this.jwtService.verify(token, {
       secret: securityConfiguration.genericTokenSecret,
     });
   }
 
   private async getRefreshToken(userId: string, username: string) {
-    const securityConfiguration = this.configService.get('security') as SecurityConfiguration;
+    const securityConfiguration = this.configService.get<SecurityConfiguration>('security')!;
+
     return this.jwtService.signAsync(
       {
         sub: userId,
@@ -107,9 +114,9 @@ export class AuthService implements IAuthService {
       },
       {
         secret: securityConfiguration.refreshTokenSecret,
-        expiresIn: securityConfiguration.refreshTokenExpirationTime,
+        expiresIn: securityConfiguration.refreshTokenExpirationTime as JwtExpiresIn,
         issuer: securityConfiguration.tokensIssuer,
-        algorithm: securityConfiguration.tokensAlgorithm,
+        algorithm: securityConfiguration.tokensAlgorithm as JwtAlgorithm,
       },
     );
   }

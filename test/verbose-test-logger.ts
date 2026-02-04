@@ -2,7 +2,7 @@ import { ConsoleLogger } from '@nestjs/common';
 import { log, error, warn, debug } from 'console';
 
 /**
- * The `VerboseTestLogger` enables full logging during tests. Unlike the default @nestj `TestingLogger`,
+ * The `VerboseTestLogger` enables full logging during tests. Unlike the default `@nestjs` `TestingLogger`,
  * which suppresses logs to keep test output clean.
  *
  * This logger is used when detailed logging is necessary during testing.
