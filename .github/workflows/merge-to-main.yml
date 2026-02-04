@@ -46,7 +46,11 @@ jobs:
       - name: 'Start the docker containers'
         run: |
           docker compose up -d 3at-postgres
-          docker compose wait 3at-postgres
+          until docker exec 3at-nest-postgres pg_isready -U postgres; do
+            echo "Postgres is unavailable - sleeping"
+            sleep 2
+          done
+          echo "Postgres is up - executing migrations"
 
       # We should remove the hardcoded env variables and use the ones from the .env file
       - name: 'Run migration scripts'
