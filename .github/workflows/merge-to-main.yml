@@ -44,9 +44,9 @@ jobs:
         run: npm run test
 
       - name: 'Start the docker containers'
-        working-directory: .
         run: |
-          docker compose -f ./docker-compose.yml up -d 3at-postgres
+          docker compose up -d 3at-postgres
+          docker compose wait 3at-postgres
 
       # We should remove the hardcoded env variables and use the ones from the .env file
       - name: 'Run migration scripts'
