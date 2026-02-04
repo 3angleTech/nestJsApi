@@ -4,16 +4,24 @@ services:
   3at-postgres:
     container_name: 3at-nest-postgres
     build: ./docker/postgres
+    env_file:
+      - .env
     environment:
-      - POSTGRES_USER=threeangle
-      - POSTGRES_PASSWORD=threeangle
-      - POSTGRES_DB=threeangle
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
+
   3at-api:
     container_name: 3at-nest-api
     build: ./
+    env_file:
+      - .env
     environment:
       - POSTGRES_HOST=3at-nest-postgres
+      - POSTGRES_PORT=5432
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:3000"
+    depends_on:
+      - 3at-postgres
